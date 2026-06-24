@@ -2,7 +2,7 @@
   "name": "sindhi",
   "rightToLeft": true,
   "joiningScript": true,
-  "orderedByFrequency": false,
+  "orderedByFrequency": true,
   "bcp47": "sd",
   "words": [
   "جي","۾","۽","جو","ته","کان","سان","آهي","هڪ","هن",
