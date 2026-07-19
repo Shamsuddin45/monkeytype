@@ -142,6 +142,25 @@ export function isModalChained(id: ModalId): boolean {
   return modalState.openModals[id]?.chained === true;
 }
 
+export function isSettingsPageOpen(): boolean {
+  // Check if any modal that contains settings is open
+  // This includes modals that are part of the settings experience
+  const settingsRelatedModals: ModalId[] = [
+    "SimpleModal",
+    "CustomText",
+    "SaveCustomText",
+    "SavedTexts",
+    "WordFilter",
+    "CustomGenerator",
+    "Cookies",
+    "AddPresetModal",
+    "EditPresetModal",
+    "EditProfile",
+  ];
+
+  return settingsRelatedModals.some((modalId) => isModalOpen(modalId));
+}
+
 function getCurrentlyOpenModal(): ModalId | null {
   for (const [id, visibility] of Object.entries(modalState.openModals)) {
     if (visibility?.visible) {

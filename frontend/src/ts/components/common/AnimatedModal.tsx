@@ -7,6 +7,7 @@ import {
   ModalId,
   isModalOpen,
   isModalChained,
+  isSettingsPageOpen,
 } from "../../states/modals";
 import { cn } from "../../utils/cn";
 import { applyReducedMotion } from "../../utils/misc";
@@ -46,7 +47,7 @@ type AnimatedModalProps = ParentProps<{
   title?: string;
   modalClass?: string;
   wrapperClass?: string;
-}>;
+}>();
 
 const DEFAULT_ANIMATION_DURATION = 125;
 const MODAL_ONLY_ANIMATION_MULTIPLIER = 0.75;
@@ -313,17 +314,27 @@ export function AnimatedModal(props: AnimatedModalProps): JSXElement {
     }
   });
 
+  const getBackgroundColor = () => {
+    // If settings page is open, use fully transparent background (no blur)
+    if (isSettingsPageOpen()) {
+      return "rgba(0, 0, 0, 0)";
+    }
+    // Otherwise use semi-transparent background (blur effect)
+    return "rgba(0, 0, 0, 0.5)";
+  };
+
   return (
     <dialog
       id={`${props.id as string}Modal`}
       ref={dialogRef}
       class={cn(
-        "fixed top-0 left-0 z-1000 m-0 hidden h-screen max-h-screen w-screen max-w-screen border-none bg-[rgba(0,0,0,0.5)] p-8 backdrop:bg-transparent",
+        "fixed top-0 left-0 z-1000 m-0 hidden h-screen max-h-screen w-screen max-w-screen border-none p-8 backdrop:bg-transparent",
         "flex h-full w-full items-center justify-center",
         props.wrapperClass,
       )}
       style={{
         display: "none",
+        background: getBackgroundColor(),
       }}
       onKeyDown={handleKeyDown}
       onMouseDown={handleBackdropClick}
